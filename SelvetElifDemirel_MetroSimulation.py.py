@@ -28,9 +28,12 @@ class MetroAgi:
         istasyon2 = self.istasyonlar[istasyon2_id]
         istasyon1.komsu_ekle(istasyon2, sure)
         istasyon2.komsu_ekle(istasyon1, sure)
-    
+        
+        
+        
+    #BFS algoritması kullanarak en az aktarmalı rotayı bulma
     def en_az_aktarma_bul(self, baslangic_id: str, hedef_id: str) -> Optional[List[Istasyon]]:
-        #BFS algoritması kullanarak en az aktarmalı rotayı bulma
+       
         
         #Başlangıç ve hedef istasyonların varlığını kontrol etmek için. 
         if baslangic_id not in self.istasyonlar or hedef_id not in self.istasyonlar:
@@ -57,7 +60,8 @@ class MetroAgi:
             ziyaret_edildi.add(mevcut_istasyon)    
 
             # Komşu istasyonları bulma döngüsü.
-            for komsu,_ in mevcut_istasyon.komsular:
+            
+            for komsu,_ in mevcut_istasyon.komsular:  # Burada, "komsu,_" kullanmamızın sebebi komsular tuple'ı süre değişkenini de içermektedir.
                 if komsu not in ziyaret_edildi:
                     kuyruk.append((komsu, istasyon_listesi + [komsu]))
                 
@@ -83,10 +87,16 @@ class MetroAgi:
         pass
         if baslangic_id not in self.istasyonlar or hedef_id not in self.istasyonlar:
             return None
-
+        pq=[(0, id(baslangic), baslangic, [baslangic])]
+        
         baslangic = self.istasyonlar[baslangic_id]
         hedef = self.istasyonlar[hedef_id]
-        ziyaret_edildi = set()
+        ziyaret_edildi = {}
+        
+        while pq:
+            mevcut_istasyon, istasyon_listesi, toplam_süre = heapq.heappop(pq)
+            
+            
 
 # Örnek Kullanım
 if __name__ == "__main__":
