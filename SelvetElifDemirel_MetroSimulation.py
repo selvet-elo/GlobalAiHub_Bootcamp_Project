@@ -60,7 +60,7 @@ class MetroAgi:
             ziyaret_edildi.add(mevcut_istasyon)    
 
             # Komşu istasyonları bulma döngüsü.
-            for komsu,_ in mevcut_istasyon.komsular:  # Burada, "komsu,_" kullanmamızın sebebi komsular tuple'ı süre değişkenini de içermektedir.
+            for komsu,_ in mevcut_istasyon.komsular: 
                 if komsu not in ziyaret_edildi:
                     kuyruk.append((komsu, istasyon_listesi + [komsu]))
                 
@@ -79,41 +79,47 @@ class MetroAgi:
         baslangic = self.istasyonlar[baslangic_id]
         hedef = self.istasyonlar[hedef_id]
         
+        #Sezgisel fonksiyon
+        #Heuristik değer için aktarma sürelerine göre ortalama bir değer aldık. Gerçek değerden küçük veya eşit olacak şekilde
+        def heuristic(istasyon: Istasyon)-> int:
+            if istasyon.hat==hedef.hat:
+                return 0  #Eğer aynı hattaysa heuristik değer 0
+            else:
+                return 2  #Aktarma yapılırsa heuristik değer +2.
+            
+            
         # Öncelik kuyruğu oluşturuyoruz.
-        # #(f(n)=g(n)+h(n) = 0 , baslangic id, mevcut_istasyon (node), istasyon_listesi )
-        pq=[(0, id(baslangic), baslangic, [baslangic])] 
+        # #(f, g, baslangic id, mevcut_istasyon (node), istasyon_listesi )
+        pq=[(0,0, id(baslangic), baslangic, [baslangic])] 
         
-        # Ziyaret edilen istasyonları ve süreleri takip etmek için bir dict oluşturduk.
-        ziyaret_edildi = {}
-        yeni_rota= {}
+        # Ziyaret edilen istasyonlar
+        ziyaret_edildi = set()
+        
         while pq:
             
             # Kuyruktaki en düşük f(n) değeri olan istasyonu çıkarıyoruz, yani en hızlı rota 
-            toplam_sure, _, mevcut_istasyon, istasyon_listesi= heapq.heappop(pq)
+            _, toplam_sure, _, mevcut_istasyon, istasyon_listesi= heapq.heappop(pq)
             
             # Hedefe ulaşıldığında istasyon_listesi ve toplam_süreyi döndür
             if mevcut_istasyon == hedef:
                 return (istasyon_listesi, toplam_sure)
+            
             # Eğer istasyon daha önce ziyaret edildiyse geç 
             if mevcut_istasyon in ziyaret_edildi:
                 continue   
-            #Ziyaret edilen istasyona yeni süreyi atıyoruz.
-            ziyaret_edildi[mevcut_istasyon]=toplam_sure
+           
+            ziyaret_edildi.add(mevcut_istasyon)  #Ziyaret edildi listesini güncelle
             
             # Komşu istasyonları dolaşma döngüsü, yeni rota ve süreyi hesaplamak için.
             for komsu, sure in mevcut_istasyon.komsular:
-                if komsu not in ziyaret_edildi or toplam_sure+sure < ziyaret_edildi[komsu]:
-                    # Yeni toplam süre, g(n)
-                    yeni_toplam_sure= toplam_sure + sure
+                if komsu not in ziyaret_edildi:
                     
-                    #Heuristic fonksiyonu BFS fonksiyonu yardımıyla tanımladım.
-                    #BFS fonksiyonu bize istasyon listesi çıktısı veriyor. Bu listenin uzunluğu durak sayıları
-                    #Durak sayıları - 1 = Aktarma sayısı
-                    heuristic=len(self.en_az_aktarma_bul(komsu.idx, hedef.idx)) - 1
-                    # Yeni rota (f(n))
-                    yeni_rota[komsu] =  yeni_toplam_sure + heuristic
+                    yeni_toplam_sure= toplam_sure + sure  # Yeni toplam süre, g(n)
+                   
+                    yeni_f =  yeni_toplam_sure + heuristic(komsu)   # Yeni rota (f(n))
+                    
                     # Yeni süre ve rotayı öncelik kuyruğuna ekliyoruz.
-                    heapq.heappush(pq, (yeni_toplam_sure, id(komsu), komsu, yeni_rota))
+                    heapq.heappush(pq, (yeni_f, yeni_toplam_sure, id(komsu), komsu, istasyon_listesi + [komsu] ))
         
         # Eğer rota bulunamazsa;            
         return None
