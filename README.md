@@ -1,5 +1,5 @@
 # :bullettrain_front: Sürücüsüz Metro Simülasyonu 
-###*Rota Optimizasyonu* 
+### *Rota Optimizasyonu* 
 
 Bu proje, bir metro ağında **iki istasyon arasındaki en hızlı ve en az aktarmalı rotayı** bulmaya yönelik bir simülasyon geliştirmektedir. Proje, *Breadth-First Search (BFS) ve A*\* (A-Star) algoritmaları\*\* kullanarak en uygun rotaları belirlemektedir.
 
