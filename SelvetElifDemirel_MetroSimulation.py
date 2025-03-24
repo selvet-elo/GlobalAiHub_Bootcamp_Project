@@ -47,8 +47,6 @@ class MetroAgi:
         kuyruk = deque([(baslangic, [baslangic])])
         ziyaret_edildi = {baslangic} # Bir ziyaret edildi sözlüğü oluşturuyoruz.
         
-        #rota oluştururken gittiği istasyonları bu sözlüğe ekleyeceğiz
-        
         while kuyruk:
             mevcut_istasyon, istasyon_listesi = kuyruk.popleft()   
             
@@ -116,7 +114,7 @@ class MetroAgi:
                     
                     yeni_toplam_sure= toplam_sure + sure  # Yeni toplam süre, g(n)
                    
-                    yeni_f =  yeni_toplam_sure + heuristic(komsu)   # Yeni rota (f(n))
+                    yeni_f =  yeni_toplam_sure + heuristic(komsu)   # Yeni maliyet (f(n))
                     
                     # Yeni süre ve rotayı öncelik kuyruğuna ekliyoruz.
                     heapq.heappush(pq, (yeni_f, yeni_toplam_sure, id(komsu), komsu, istasyon_listesi + [komsu] ))
