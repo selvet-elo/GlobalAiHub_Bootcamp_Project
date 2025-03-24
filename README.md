@@ -49,18 +49,7 @@ A\* algoritması, en hızlı rotayı bulmak için **heuristic (sezgisel) fonksiy
    5. ***Heuristic fonksiyon***, istasyonlar arasındaki geçiş sürelerini ve hat değişikliklerini göz önünde bulundurarak en hızlı rotayı belirlemeye yardımcı olur.
         - Eğer iki istasyon aynı hatta bulunuyorsa, ek bir aktarma süresi gerektirmediğinden heuristic değeri 0 olarak atanır. Ancak, farklı bir hat üzerinden gitmek gerekiyorsa, ortalama bir aktarma süresi eklenerek yolculuk süresinin daha gerçekçi hesaplanması sağlanır.
    7. Hedefe ulaşıldığında **en hızlı rota ve toplam süre** döndürülür.
-
-## Kurulum ve Kullanım
-
-1. **Proje dosyasını klonlayın:**
-   ```sh
-   git clone https://github.com/Selvet/MetroSimulation.git
-   cd MetroSimulation
-   ```
-2. **Python kodunu çalıştırın:**
-   ```sh
-   python SelvetElifDemirel_MetroSimulation.py
-   ```
+      
 
 ## Test Senaryoları
 
