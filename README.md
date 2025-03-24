@@ -1,11 +1,11 @@
 # :bullettrain_front: Sürücüsüz Metro Simülasyonu 
 ### *Rota Optimizasyonu* 
 
-Bu proje, bir metro ağında iki istasyon arasında en hızlı ve en az aktarmalı rotaları bulmak için geliştirilmiş bir simülasyondur. Proje, iki temel algoritma kullanır: Breadth-First Search (BFS) ve *A (A-Star)**.
+Bu proje, bir metro ağında iki istasyon arasında en hızlı ve en az aktarmalı rotaları bulmak için geliştirilmiş bir simülasyondur. Proje, iki temel algoritma kullanır: *Breadth-First Search (BFS)* ve *A** *(A-Star)*.
 
--BFS Algoritması: En az aktarmalı rotayı bulmak için kullanılır. Bu algoritma, başlangıç istasyonundan başlayarak tüm komşu istasyonları tek tek inceler ve hedef istasyona ulaşana kadar geniş bir arama yapar. Aktarma sayısını en aza indirmeyi hedefler.
+- **BFS Algoritması:** En az aktarmalı rotayı bulmak için kullanılır. Bu algoritma, başlangıç istasyonundan başlayarak tüm komşu istasyonları tek tek inceler ve hedef istasyona ulaşana kadar geniş bir arama yapar. Aktarma sayısını en aza indirmeyi hedefler.
 
--A Algoritması*: En hızlı rotayı bulmak için kullanılır. Bu algoritma, hem gerçek maliyeti (duraklar arasındaki süreler) hem de tahmini maliyeti (heuristik fonksiyonu) dikkate alarak en optimize rotayı belirler. Heuristik fonksiyonu, duraklar arasındaki süreler ve aktarma maliyetlerini göz önünde bulundurur.
+- **A*** **Algoritması**: En hızlı rotayı bulmak için kullanılır. Bu algoritma, hem gerçek maliyeti (duraklar arasındaki süreler) hem de tahmini maliyeti (heuristik fonksiyonu) dikkate alarak en optimize rotayı belirler. Heuristik fonksiyonu, duraklar arasındaki süreler ve aktarma maliyetlerini göz önünde bulundurur.
 
 Proje Amacı
 
@@ -19,13 +19,15 @@ Projenin temel amacı, bir metro ağında:
 
 Projede aşağıdaki Python kütüphaneleri kullanılmıştır:
 
-   - `collections.deque` : Çift uçlu kuyruk yapısı sağlayarak BFS algoritmasında istasyonları işleme almak için kullanıldı. FIFO (First In, First Out) mantığında çalışır.
+   - `collections.deque` : Çift uçlu kuyruk yapısı sayesinde BFS algoritmasında istasyonları işleme almak için kullanıldı. FIFO (First In, First Out) mantığında çalışır.
    - `heapq` : Öncelik kuyruğu yapısını kullanarak A\* algoritmasında en kısa süreli rotayı belirlemek için kullanıldı. En küçük maliyetli düğümü hızlı bir şekilde seçmeyi sağlar.
    - `defaultdict` : Varsayılan değerler içeren bir sözlük yapısı sağlayarak metro hattı verilerini organize etmek için kullanıldı. Hatlara istasyonları kolayca ekleyebilmek için tercih edildi.
    - `typing` : Kodun okunabilirliğini ve sürdürülebilirliğini artırmak amacıyla tip ipuçları (type hints) eklendi. Böylece parametrelerin ve dönüş değerlerinin türleri daha net hale getirildi.
 
 
 ## Algoritmaların Çalışma Mantığı
+
+Öncelikle neden bu algoritmaları kullandık onu açıklayarak başlayalım. Bu projedeki hedefimiz en az aktarmalı ve en hızlı rotaları bulan br program geliştirmek. BFS algoritması bize en az düğümlü yolu seçerken (en az aktarmalı), A* algoritması, sezgisel fonksiyon sayesinde bize en süre bazında en az maliyetli rotayı bulmayı hedefler. Her zaman en az aktarmalı rota en hızlı rota olmayabilir.
 
 ### BFS Algoritması (En Az Aktarmalı Rota)
 
@@ -77,6 +79,8 @@ Kod aşağıdaki senaryolar ile test edilmiştir ve sonuçları proje_cıktısı
 3. Keçiören'den AŞTİ'ye:
    - En az aktarmalı rota: Keçiören -> Gar -> Gar -> Sıhhiye -> Kızılay -> AŞTİ
    - En hızlı rota (19 dakika): Keçiören -> Gar -> Gar -> Sıhhiye -> Kızılay -> AŞTİ
+
+:grey_exclamation: *4. ve 5. senaryolar sonradan eklenilen test senaryolarıdır. Görüldüğü gibi 4. senaryoda Ulus'tan Keçiören'e, en az aktarmalı rota ile en hızlı rota birbirinden farklıdır.*
 
 4. Ulus'tan Keçiören'e:
    - En az aktarmalı rota: Ulus -> Demetevler -> Demetevler -> Gar -> Keçiören
